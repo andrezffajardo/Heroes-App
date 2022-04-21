@@ -1,0 +1,21 @@
+import { SearchScreen } from '../../components/search/SearchScreen';
+import { mount } from 'enzyme';
+import {MemoryRouter} from "react-router-dom";
+
+
+
+describe('Pruebas en <SearchScreen />', () => {
+
+    test('Debe mostrarse correctamente con valores por defecto', () => {
+
+        const wrapper = mount(
+            <MemoryRouter initialEntries={['/search']}>
+                <SearchScreen />
+            </MemoryRouter>
+        );
+        expect( wrapper ).toMatchSnapshot();
+        expect( wrapper.find('.alert-info').text().trim() ).toBe('Search a Hero');
+
+    })
+
+});
