@@ -2,7 +2,12 @@ import { SearchScreen } from '../../components/search/SearchScreen';
 import { mount } from 'enzyme';
 import {MemoryRouter} from "react-router-dom";
 
+const mockNavigate = jest.fn();
 
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: () => mockNavigate,
+}));
 
 describe('Pruebas en <SearchScreen />', () => {
 
@@ -42,6 +47,29 @@ describe('Pruebas en <SearchScreen />', () => {
         expect( wrapper.find('.alert-danger').text().trim() ).toBe('without results: batman123');
 
     });
+
+    test('Debe llamar el Navigate a la nueva pantalla', () => {
+
+        const wrapper = mount(
+            <MemoryRouter initialEntries={['/search?q=batman123']}>
+                <SearchScreen />
+            </MemoryRouter>
+        );
+
+        wrapper.find('input').simulate('change', {
+            target: {
+                name: 'searchText',
+                value: 'batman'
+            }
+        });
+
+        wrapper.find('form').prop('onSubmit')({
+            preventDefault: () => {}
+        });
+
+        expect( mockNavigate ).toHaveBeenCalledWith('?q=batman');
+
+    })
 
 
 });
