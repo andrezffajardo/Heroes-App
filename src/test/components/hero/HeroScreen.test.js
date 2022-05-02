@@ -24,6 +24,21 @@ describe('Pruebas en <HeroScreen />', () => {
 
         expect( wrapper.find('h1').text().trim() ).toBe('No Hero Page');
 
-    })
+    });
+
+    test('Debe de mostrar un Hero si el parametro existe y se encuentra', () => {
+
+        const wrapper = mount(
+            <MemoryRouter initialEntries={['/hero/marvel-spider']}>
+                <Routes>
+                    <Route path="/hero/:heroId" element={<HeroScreen />} />
+                    <Route path="/" element={ <h1>No Hero Page</h1> } />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        expect( wrapper.find('.row').exists() ).toBe(true);
+
+    });
 
 })
