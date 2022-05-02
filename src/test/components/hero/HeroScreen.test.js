@@ -41,4 +41,35 @@ describe('Pruebas en <HeroScreen />', () => {
 
     });
 
+    test('Debe regrasar a la pantalla anterior', () => {
+
+        const wrapper = mount(
+            <MemoryRouter initialEntries={['/hero/marvel-spider']}>
+                <Routes>
+                    <Route path="/hero/:heroId" element={<HeroScreen />} />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        wrapper.find('button').prop('onClick')();
+
+        expect( mockNavigate ).toHaveBeenCalledWith(-1);
+
+    });
+
+    test('Debe de mostrar el No Hero Page si no tenemos un heroe', () => {
+
+        const wrapper = mount(
+            <MemoryRouter initialEntries={['/hero/marvel-spider788445']}>
+                <Routes>
+                    <Route path="/hero/:heroId" element={<HeroScreen />} />
+                    <Route path="/" element={ <h1>No Hero Page</h1> } />
+                </Routes>
+            </MemoryRouter>
+        );
+
+        expect( wrapper.text() ).toBe('No Hero Page');
+
+    });
+
 })
